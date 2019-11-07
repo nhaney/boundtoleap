@@ -19,7 +19,14 @@
   - PlayerInput
     - player movement constants
   - Path
-    - determines a path to travel on
+    - function x (x = function)
+    - function y
+    - follow entity (id to follow, speed)
+  - GameManager
+    - Spawn rates
+    - difficulty
+    - score
+  - 
   
 - Create all systems:
   - Player Movement system
@@ -30,12 +37,15 @@
     - Collision
     - Loops through and checks collisions and then applies the callback if they happen
   - Path Movement system:
-    - Physics
+    - Position
     - Path
+    - Moves position to next place on path
   
 - Create jump and physics system for frog
 - Create random seed generation to make game deterministic
 - Spin up simple server to track high scores with replay
   - Flask/Go app with celery workers connected to a database
+    - Need headless version of game (that can execute quicker than normal)
+    - Need networking layer (simple http requests)
   
   
