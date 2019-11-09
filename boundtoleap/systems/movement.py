@@ -1,6 +1,6 @@
 import esper
 
-from boundtoleap.components.components import Position, Velocity, Shape
+from components.components import Position, Velocity, Shape
 
 
 class MovementProcessor(esper.Processor):

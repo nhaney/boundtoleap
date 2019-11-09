@@ -1,7 +1,7 @@
 import esper
 import pygame
 
-from boundtoleap.components.components import Position, Renderable
+from components.components import Position, Renderable
 
 
 class RenderProcessor(esper.Processor):
@@ -11,7 +11,7 @@ class RenderProcessor(esper.Processor):
         self.clock = clock
         self.clear_color = clear_color
         pygame.font.init()
-        self.fps_font = pygame.font.Font("boundtoleap/resources/fonts/digital-7.ttf", 26)
+        self.fps_font = pygame.font.Font("resources/fonts/digital-7.ttf", 26)
 
     def process(self, *args, **kwargs):
         # clear window

@@ -1,60 +1,39 @@
-class Velocity:
-    def __init__(self, x=0.0, y=0.0):
-        self.x = x
-        self.y = y
+class Collider:
+    def __init__(self, layer, mask, rect, callbacks, debug=False,):
+        self.layer = layer
+        self.mask = mask
+        self.bb = rect
+        self.callbacks = callbacks
+        self.debug = debug
 
-    def reset(self):
-        self.x, self.y = 0, 0
+
+class Sprite:
+    def __init__(self, anims, rect):
+        self.anims = anims
+        self.rect = rect
 
 
 class Position:
-    def __init__(self, x=0.0, y=0.0):
+    def __init__(self, x, y, facing_right=True):
         self.x = x
         self.y = y
+        self.facing_right = facing_right
 
 
-class Shape:
-    """
-    If type is 0, it is a rectangle
-    If type is 1, it is a circle
-    """
-    def __init__(self, type=0, *, rect=None, radius=None):
-        # validate component
-        if type not in (0, 1):
-            raise AttributeError("Invalid type! Choices are 0 (rect) and 1 (circle)")
-
-        if not rect and not radius:
-            raise AttributeError(f"Must specify {'rect' if not type else 'radius'} when initializing.")
-
-        if not rect and not type:
-            raise AttributeError("Must specify rect!")
-
-        if not radius and type:
-            raise AttributeError("Must specify radius!")
-
-        self.type = type
-        self.rect = rect
-        self.radius = radius
+class Physics:
+    def __init__(self, gravity, air_friction, ground_friction):
+        self.gravity = gravity
+        self.air_friction = air_friction
+        self.ground_friction = ground_friction
 
 
-class Renderable:
-    def __init__(self, img, window):
-        self.img = img
-        self.window = window
-
-
-class Collidable:
-    def __init__(self, mask, collision_mask, bounding_box):
-        # 8 bit collision mask
-        self.mask = mask
-        # what it collides with
-        self.collision_mask = collision_mask
-        # everything is a box collision for now
-        self.bounding_box = bounding_box
+class Path:
+    def __init__(self, x_t, y_t, follow_id, follow_speed):
+        self.x_t = x_t
+        self.y_t = y_t
+        self.follow_id = follow_id
+        self.follow_speed = follow_speed
 
 
 class Input:
-    def __init__(self, speed=500):
-        self.speed = speed
-
-
+    pass

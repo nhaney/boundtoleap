@@ -1,46 +1,53 @@
-import pygame
-from pygame.locals import *
+import os
+
+import pygame as pg
 import esper
 
-from boundtoleap.components import *
-from boundtoleap.systems import *
-
-RESOLUTION = 1280, 720
-
-player_img = pygame.image.load("boundtoleap/resources/images/frog/frogsprite.png")
+from components.components import Collider, Input, Position, Sprite
 
 
-def run():
-    # Initialize Pygame stuff
-    pygame.init()
+class Game(esper.World):
+    """
+    Handles all gameplay logic
+    """
+    def __init__(self, images, sounds):
+        super.__init__()
+        # load resources
+        self.load_resources(images, sounds)
+    
+    def load_resources(self, images, sounds):
+        # load images
+        self.images = []
+        for image in images:
+            self.images.append(pg.image.load(image))
+        
+    def start(self):
+        # start fresh
+        self.clear_database()
+        # add player
+        self.initialize_player()
 
-    window = pygame.display.set_mode(RESOLUTION)
-    pygame.display.set_caption("boundtoleap")
-    clock = pygame.time.Clock()
+    def update(self, delta):
+        super.process(delta=delta)
+        
 
-    # Initialize Esper world, and create a "player" Entity with a few Components.
-    world = esper.World()
-    player = world.create_entity(
-        Velocity(),
-        Position(100, 100),
-        Shape(0, rect=pygame.Rect((360, 450), (100, 20))),
-        Renderable(player_img, window),
-        Input()
-    )
-    world.add_processor(InputProcessor(player))
-    world.add_processor(MovementProcessor(0, 1280, 0, 720))
-    world.add_processor(RenderProcessor(window, clock))
-
-    running = True
-
-    while running:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                running = False
-
-        # A single call to world.process() will update all Processors:
-        world.process(delta=clock.tick(200)/1000.0)
+    def initialize_player(world, width, height):
+        position = Position(width / 2, height / 2)
+        collider = Collider(
+            0b1, 
+            0b11111110, 
+            pg.Rect(position.x, position.y, 32, 32),
+            {
+                # lily pad
+                0b00000010: player_floor
+            },
+            debug=DEBUG
+        )
+        Sprite(
+            
+        )
 
 
-run()
-pygame.quit()
+
+    def player_floor():
+        pass

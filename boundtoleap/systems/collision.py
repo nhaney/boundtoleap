@@ -1,7 +1,7 @@
 import esper
 import pygame
 
-from ..components.components import Collidable, Position, Velocity
+from components.components import Collidable, Position, Velocity
 
 
 class CollisionProcessor(esper.Processor):

@@ -1,7 +1,7 @@
 import esper
 import pygame
 
-from boundtoleap.components.components import Input, Velocity
+from components.components import Input, Velocity
 
 
 class InputProcessor(esper.Processor):
