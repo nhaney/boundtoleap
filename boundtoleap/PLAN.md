@@ -16,6 +16,7 @@ Create all components:
   - Position
     - x
     - y
+    - direction facing
   - PlayerInput
     - player movement constants
   - Path
@@ -31,23 +32,46 @@ Create all components:
     - Input queue
     - server
     - random seed
-    - 
+    
   
 Create all systems:
-  - Player Movement system
-    - Physics
-    - Input
-    - Keeps track of state of player
-  - Collision System
-    - Collision
-    - Loops through and checks collisions and then applies the callback if they happen
+  - Movement System
+    - Gravity System (player)
+    - Input System (player)
+    - Velocity System
+    - Collision System
+    
   - Path Movement system:
     - Position
     - Path
     - Moves position to next place on path
       or to target.
-  - Render System
-  - 
+  - Render System:
+    - 
+
+  
+Collision Reactions:
+  - Tongue/fly
+    - flys path gets set to follow player
+      at high speed (same as tongue speed)
+  - Fly/frog
+    - Fly gets deleted
+    - score goes up
+    - Sound plays
+  - Frog/wall
+    - Not a rect collision, just checks if 
+      frog is outside screen by using its
+      rect and puts the x axis to touching
+      and x velocity to 0
+  - Frog/floor
+    - only collides on the bottom side of rect
+      - Math this out if rects collide
+  - Frog/river
+    - if y falls below certain value
+    - animation is set to splash
+    - game over starts after 1 second
+      and world is reset. 
+
 
 Entities:
   - Player
@@ -71,8 +95,6 @@ Entities:
       - player collides with it
     - Sprite
     - Path (random, maybe sine wave?)
-      
-      
 
 
 - Create jump and physics system for frog
