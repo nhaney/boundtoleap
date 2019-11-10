@@ -8,7 +8,8 @@ class Collider:
 
 
 class Sprite:
-    def __init__(self, anims, rect):
+    def __init__(self, base_image, anims, rect):
+        self.base_image = base_image
         self.anims = anims
         self.rect = rect
 

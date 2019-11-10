@@ -1,4 +1,3 @@
 from .components import *
 
-__all__ = ('Velocity', 'Position', 'Shape',
-           'Renderable', 'Collidable', 'Input')
+__all__ = ('Collider', 'Sprite', 'Position', 'Physics', 'Path', 'Input')

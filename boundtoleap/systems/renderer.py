@@ -1,36 +1,21 @@
 import esper
 import pygame
 
-from components.components import Position, Renderable
+from components import Position, Sprite
 
 
 class RenderProcessor(esper.Processor):
-    def __init__(self, window, clock, clear_color=(0, 0, 0)):
+    def __init__(self, window, clear_color=(255, 0, 0)):
         super().__init__()
-        self.window = window
-        self.clock = clock
+        self.surface = window
         self.clear_color = clear_color
-        pygame.font.init()
-        self.fps_font = pygame.font.Font("resources/fonts/digital-7.ttf", 26)
 
     def process(self, *args, **kwargs):
         # clear window
-        self.window.fill(self.clear_color)
-
-        for ent, (pos, render) in self.world.get_components(Position, Renderable):
-            self.window.blit(render.img, (pos.x, pos.y))
-
-        self.draw_fps()
-        # flip the framebuffers
-        pygame.display.flip()
-
-    def render_circle(self, pos, render, shape):
-        pygame.draw.circle(self.window, render.color, (pos.x, pos.y), shape.radius)
-
-    def render_rect(self, pos, render, shape):
-        pygame.draw.rect(self.window, render.color, (pos.x, pos.y, shape.rect.width, shape.rect.height))
-
-    def draw_fps(self):
-        fps = str(int(self.clock.get_fps()))
-        textsurface = self.fps_font.render(fps, False, (255, 255, 255))
-        self.window.blit(textsurface, (0, 0))
+        self.surface.fill(self.clear_color)
+        # breakpoint()
+        for ent, (pos, sprite) in self.world.get_components(Position, Sprite):
+            if sprite.base_image:
+                self.surface.blit(sprite.base_image, (pos.x, pos.y, sprite.rect.width, sprite.rect.height))
+            else:
+                self.surface.fill((0, 255, 0), sprite.rect)

@@ -1,42 +1,37 @@
 import esper
 
-from components.components import Position, Velocity, Shape
+from components import Position, Physics, Input, Path
 
 
 class MovementProcessor(esper.Processor):
-    def __init__(self, min_x, max_x, min_y, max_y):
+    def __init__(self):
         super().__init__()
-
-        self.min_x = min_x
-        self.max_x = max_x
-
-        self.min_y = min_y
-        self.max_y = max_y
+        self.has_registered = False
+        self.player_movement = None
 
     def process(self, *args, **kwargs):
-        for ent, (pos, shape, vel) in self.world.get_components(Position, Shape, Velocity):
-            if not shape.type:
-                min_x = 0
-                max_x = self.max_x - shape.rect.width
+        if not self.world:
+            raise ValueError("Cannot process if system isn't registered.")
+        if not self.has_registered:
+            self.player_movement = PlayerMovementSubProcessor(self.world)
+            self.has_registered = True
 
-                min_y = 0
-                max_y = self.max_y - shape.rect.height
-            else:
-                min_x = shape.radius
-                max_x = self.max_x - shape.radius
-
-                min_y = shape.radius
-                max_y = self.max_y - shape.radius
-
-            pos.x += vel.x
-            pos.y += vel.y
-
-            pos.x = max(min_x, pos.x)
-            pos.x = min(max_x, pos.x)
-
-            pos.y = max(min_y, pos.y)
-            pos.y = min(max_y, pos.y)
+        self.player_movement.process(kwargs['delta'])
 
 
+class PlayerMovementSubProcessor:
+    def __init__(self, world):
+        self.world = world
 
+    def process(self, delta):
+        ent, (pos, physics, _) = self.world.get_components(Position, Physics, Input)[0]
+        pos.y += physics.gravity * delta
+
+
+class PathMovementSubProcessor:
+    def __init__(self, world):
+        self.world = world
+
+    def process(self, delta):
+        pass
 
